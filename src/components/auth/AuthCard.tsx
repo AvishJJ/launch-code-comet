@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import { Github, Mail } from 'lucide-react';
@@ -51,13 +52,15 @@ export default function AuthCard() {
 
   const handleOAuth = async (provider: 'github' | 'google') => {
     try {
+      setIsLoading(true);
       await signInWithProvider(provider);
     } catch (error: any) {
       toast({
         title: "Authentication error",
-        description: error.message,
+        description: error.message || "Provider not enabled. Please use email/password login or contact administrator.",
         variant: "destructive"
       });
+      setIsLoading(false);
     }
   };
 
