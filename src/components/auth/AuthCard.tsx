@@ -1,7 +1,6 @@
-
 import { useState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
-import { GitHub, Mail } from 'lucide-react';
+import { Github, Mail } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -100,7 +99,7 @@ export default function AuthCard() {
           className="flex w-full items-center justify-center rounded-md border border-white/10 bg-[#24292e] px-4 py-2 text-white hover:bg-[#2c3338] focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-[#0A0A23]"
           disabled={isLoading}
         >
-          <GitHub className="mr-2 h-5 w-5" />
+          <Github className="mr-2 h-5 w-5" />
           Continue with GitHub
         </button>
         <button
