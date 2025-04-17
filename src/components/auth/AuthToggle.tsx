@@ -13,8 +13,10 @@ export function AuthToggle({ isSignUp, onToggle }: AuthToggleProps) {
           className={`flex-1 border-b-2 pb-2 text-center transition-all ${
             !isSignUp
               ? 'border-purple-500 text-white'
-              : 'border-transparent text-gray-400'
+              : 'border-transparent text-gray-400 hover:text-gray-300'
           }`}
+          aria-selected={!isSignUp}
+          role="tab"
         >
           Sign In
         </button>
@@ -23,8 +25,10 @@ export function AuthToggle({ isSignUp, onToggle }: AuthToggleProps) {
           className={`flex-1 border-b-2 pb-2 text-center transition-all ${
             isSignUp
               ? 'border-purple-500 text-white'
-              : 'border-transparent text-gray-400'
+              : 'border-transparent text-gray-400 hover:text-gray-300'
           }`}
+          aria-selected={isSignUp}
+          role="tab"
         >
           Sign Up
         </button>

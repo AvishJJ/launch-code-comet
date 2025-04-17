@@ -7,10 +7,18 @@ interface OAuthButtonsProps {
 }
 
 export function OAuthButtons({ onProviderAuth, isLoading }: OAuthButtonsProps) {
+  const handleProviderAuth = async (provider: 'github' | 'google') => {
+    try {
+      await onProviderAuth(provider);
+    } catch (error) {
+      console.error(`Failed to authenticate with ${provider}:`, error);
+    }
+  };
+
   return (
     <div className="space-y-4">
       <button
-        onClick={() => onProviderAuth('github')}
+        onClick={() => handleProviderAuth('github')}
         className="flex w-full items-center justify-center rounded-md border border-white/10 bg-[#24292e] px-4 py-2 text-white hover:bg-[#2c3338] focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-[#0A0A23]"
         disabled={isLoading}
       >
@@ -18,7 +26,7 @@ export function OAuthButtons({ onProviderAuth, isLoading }: OAuthButtonsProps) {
         Continue with GitHub
       </button>
       <button
-        onClick={() => onProviderAuth('google')}
+        onClick={() => handleProviderAuth('google')}
         className="flex w-full items-center justify-center rounded-md border border-white/10 bg-white px-4 py-2 text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-[#0A0A23]"
         disabled={isLoading}
       >

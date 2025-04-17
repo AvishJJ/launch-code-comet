@@ -68,18 +68,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInWithProvider = async (provider: 'github' | 'google') => {
     try {
+      // Use the current origin for the redirect URL
+      const redirectTo = `${window.location.origin}/dashboard`;
+      console.log(`Setting redirect URL to: ${redirectTo}`);
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/dashboard`,
+          redirectTo: redirectTo,
         }
       });
       
       if (error) {
+        console.error("OAuth error:", error);
         throw error;
       }
     } catch (error) {
-      console.error("OAuth error:", error);
+      console.error("OAuth provider error:", error);
       throw error;
     }
   };
