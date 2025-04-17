@@ -1,4 +1,3 @@
-
 import { useEffect, useState, createContext, useContext, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
@@ -23,23 +22,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Set up auth state listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log("Auth state changed:", event, session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
+        
+        if (event === 'SIGNED_IN' && window.location.href.includes('#access_token')) {
+          navigate('/dashboard');
+        }
       }
     );
 
-    // Then check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("Initial session check:", session?.user?.email);
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [navigate]);
 
   const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -62,29 +65,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
+    console.log("Signing out user");
     await supabase.auth.signOut();
     navigate('/auth');
   };
 
   const signInWithProvider = async (provider: 'github' | 'google') => {
     try {
-      // Use the current origin for the redirect URL
-      const redirectTo = `${window.location.origin}/dashboard`;
-      console.log(`Setting redirect URL to: ${redirectTo}`);
+      const redirectTo = window.location.origin + '/dashboard';
+      console.log(`OAuth attempt with ${provider}, redirect URL: ${redirectTo}`);
       
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: redirectTo,
+          skipBrowserRedirect: false
         }
       });
       
       if (error) {
-        console.error("OAuth error:", error);
+        console.error(`${provider} OAuth error:`, error);
         throw error;
       }
-    } catch (error) {
-      console.error("OAuth provider error:", error);
+      
+      console.log(`${provider} OAuth flow initiated successfully`, data);
+    } catch (error: any) {
+      console.error(`${provider} OAuth provider error:`, error);
       throw error;
     }
   };
