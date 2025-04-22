@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 
 interface AuthFormProps {
   isSignUp: boolean;
@@ -21,8 +22,8 @@ export function AuthForm({ isSignUp, isLoading, onSubmit }: AuthFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {isSignUp && (
-        <div>
-          <label htmlFor="fullName" className="mb-1 block text-sm text-gray-300">
+        <div className="space-y-1.5">
+          <label htmlFor="fullName" className="block text-sm font-medium text-gray-300">
             Full Name
           </label>
           <input
@@ -30,14 +31,14 @@ export function AuthForm({ isSignUp, isLoading, onSubmit }: AuthFormProps) {
             type="text"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="w-full rounded-md border border-white/10 bg-[#1E1E3F] px-4 py-2 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full rounded-lg border border-white/10 bg-secondary/60 px-4 py-2.5 text-white placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/50 transition-colors"
             placeholder="Your name"
             required={isSignUp}
           />
         </div>
       )}
-      <div>
-        <label htmlFor="email" className="mb-1 block text-sm text-gray-300">
+      <div className="space-y-1.5">
+        <label htmlFor="email" className="block text-sm font-medium text-gray-300">
           Email
         </label>
         <input
@@ -45,13 +46,13 @@ export function AuthForm({ isSignUp, isLoading, onSubmit }: AuthFormProps) {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded-md border border-white/10 bg-[#1E1E3F] px-4 py-2 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full rounded-lg border border-white/10 bg-secondary/60 px-4 py-2.5 text-white placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/50 transition-colors"
           placeholder="you@example.com"
           required
         />
       </div>
-      <div>
-        <label htmlFor="password" className="mb-1 block text-sm text-gray-300">
+      <div className="space-y-1.5">
+        <label htmlFor="password" className="block text-sm font-medium text-gray-300">
           Password
         </label>
         <input
@@ -59,15 +60,15 @@ export function AuthForm({ isSignUp, isLoading, onSubmit }: AuthFormProps) {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full rounded-md border border-white/10 bg-[#1E1E3F] px-4 py-2 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full rounded-lg border border-white/10 bg-secondary/60 px-4 py-2.5 text-white placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/50 transition-colors"
           placeholder="••••••••"
           required
         />
       </div>
 
       {isSignUp && (
-        <div>
-          <label htmlFor="confirmPassword" className="mb-1 block text-sm text-gray-300">
+        <div className="space-y-1.5">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
             Confirm Password
           </label>
           <input
@@ -75,7 +76,7 @@ export function AuthForm({ isSignUp, isLoading, onSubmit }: AuthFormProps) {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full rounded-md border border-white/10 bg-[#1E1E3F] px-4 py-2 text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full rounded-lg border border-white/10 bg-secondary/60 px-4 py-2.5 text-white placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/50 transition-colors"
             placeholder="••••••••"
             required={isSignUp}
           />
@@ -84,10 +85,13 @@ export function AuthForm({ isSignUp, isLoading, onSubmit }: AuthFormProps) {
 
       <button
         type="submit"
-        className="w-full animate-pulse rounded-md bg-gradient-to-r from-purple-600 to-blue-500 px-4 py-2 font-medium text-white hover:from-purple-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-[#0A0A23] disabled:opacity-50"
+        className="w-full mt-6 relative rounded-lg overflow-hidden bg-gradient-to-r from-violet-700 via-primary to-blue-500 p-[1px] font-medium text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 group animate-gradient-shift"
         disabled={isLoading}
       >
-        {isLoading ? 'Processing...' : 'Launch Comet'} 
+        <span className="flex items-center justify-center gap-2 rounded-lg bg-background px-6 py-2.5 transition-all duration-200 group-hover:bg-opacity-0 text-center">
+          {isLoading ? 'Processing...' : 'Launch Comet'} 
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </span>
       </button>
     </form>
   );

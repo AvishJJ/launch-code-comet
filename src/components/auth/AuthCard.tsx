@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { OAuthButtons } from './OAuthButtons';
 import { AuthForm } from './AuthForm';
 import { AuthToggle } from './AuthToggle';
+import { Rocket } from 'lucide-react';
 
 export default function AuthCard() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -67,15 +68,20 @@ export default function AuthCard() {
   };
 
   return (
-    <div className="w-full max-w-md rounded-lg border border-white/10 bg-[#0A0A23]/80 p-6 shadow-xl backdrop-blur-sm">
-      <div className="mb-6 text-center">
-        <h2 className="mb-2 text-2xl font-bold text-white">Welcome to Comet</h2>
+    <div className="w-full max-w-md glass-card rounded-2xl p-8 shadow-2xl border border-white/10 backdrop-blur-lg animate-scale-in">
+      <div className="mb-8 text-center">
+        <div className="flex justify-center mb-4">
+          <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-violet-600 to-primary flex items-center justify-center shadow-lg">
+            <Rocket className="h-7 w-7 text-white" />
+          </div>
+        </div>
+        <h2 className="mb-2 text-2xl font-display font-bold text-white tracking-tight">Welcome to Comet</h2>
         <p className="text-sm text-gray-400">Sign in to access your dashboard</p>
       </div>
 
       <AuthToggle isSignUp={isSignUp} onToggle={setIsSignUp} />
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         <OAuthButtons onProviderAuth={handleOAuth} isLoading={isLoading} />
 
         <div className="relative flex items-center py-2">

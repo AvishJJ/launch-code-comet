@@ -7,13 +7,13 @@ interface AuthToggleProps {
 export function AuthToggle({ isSignUp, onToggle }: AuthToggleProps) {
   return (
     <div className="mb-6">
-      <div className="flex">
+      <div className="flex rounded-lg bg-secondary/40 p-1">
         <button
           onClick={() => onToggle(false)}
-          className={`flex-1 border-b-2 pb-2 text-center transition-all ${
+          className={`flex-1 rounded-md py-2 text-center font-medium transition-all ${
             !isSignUp
-              ? 'border-purple-500 text-white'
-              : 'border-transparent text-gray-400 hover:text-gray-300'
+              ? 'bg-primary/20 text-white shadow-sm'
+              : 'text-gray-400 hover:text-gray-300'
           }`}
           aria-selected={!isSignUp}
           role="tab"
@@ -22,10 +22,10 @@ export function AuthToggle({ isSignUp, onToggle }: AuthToggleProps) {
         </button>
         <button
           onClick={() => onToggle(true)}
-          className={`flex-1 border-b-2 pb-2 text-center transition-all ${
+          className={`flex-1 rounded-md py-2 text-center font-medium transition-all ${
             isSignUp
-              ? 'border-purple-500 text-white'
-              : 'border-transparent text-gray-400 hover:text-gray-300'
+              ? 'bg-primary/20 text-white shadow-sm'
+              : 'text-gray-400 hover:text-gray-300'
           }`}
           aria-selected={isSignUp}
           role="tab"

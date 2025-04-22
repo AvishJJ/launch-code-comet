@@ -24,10 +24,10 @@ export function OAuthButtons({ onProviderAuth, isLoading: parentIsLoading }: OAu
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <button
         onClick={() => handleProviderAuth('github')}
-        className="relative flex w-full items-center justify-center rounded-md border border-white/10 bg-[#24292e] px-4 py-2 text-white hover:bg-[#2c3338] focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-[#0A0A23] disabled:opacity-70"
+        className="relative flex w-full items-center justify-center rounded-lg bg-secondary/70 px-4 py-2.5 text-white shadow-sm hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-1 focus:ring-offset-background disabled:opacity-70 transition-colors border border-white/5"
         disabled={isLoading}
       >
         {providerLoading === 'github' ? (
@@ -39,7 +39,7 @@ export function OAuthButtons({ onProviderAuth, isLoading: parentIsLoading }: OAu
       </button>
       <button
         onClick={() => handleProviderAuth('google')}
-        className="relative flex w-full items-center justify-center rounded-md border border-white/10 bg-white px-4 py-2 text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-[#0A0A23] disabled:opacity-70"
+        className="relative flex w-full items-center justify-center rounded-lg bg-white px-4 py-2.5 text-gray-800 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-1 focus:ring-offset-background disabled:opacity-70 transition-colors"
         disabled={isLoading}
       >
         {providerLoading === 'google' ? (
