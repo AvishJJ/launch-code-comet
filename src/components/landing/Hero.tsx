@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Rocket, ArrowRight } from 'lucide-react';
@@ -186,15 +185,17 @@ export default function Hero() {
             <span className="font-semibold text-primary">We ship you a full codebase in minutes.</span>
           </p>
           
-          <Link
-            to="/auth"
-            className="gradient-button group inline-flex items-center justify-center overflow-hidden rounded-lg bg-secondary px-8 py-4 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary animate-fade-in"
-          >
-            <span className="relative flex items-center gap-2">
-              Launch Comet
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </span>
-          </Link>
+          <div className="flex justify-center items-center">
+            <Link
+              to="/auth"
+              className="gradient-button group inline-flex items-center justify-center overflow-hidden rounded-lg bg-secondary px-8 py-4 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary animate-fade-in"
+            >
+              <span className="relative flex items-center gap-2">
+                Launch Comet
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+          </div>
           
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto text-center">
             <div className="glass-card p-6 rounded-xl backdrop-blur-sm animate-fade-in transition-all duration-300 hover:scale-[1.02]">
