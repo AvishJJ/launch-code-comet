@@ -31,13 +31,16 @@ export default function DashboardCTA() {
   };
 
   return (
-    <section className="p-8 rounded-xl bg-gradient-to-br from-[#221F26]/80 to-[#7E69AB]/20 shadow-xl border border-[#232245]/60 transition-all duration-300 hover:shadow-2xl">
+    <section className="p-8 rounded-xl bg-gradient-to-br from-[#221F26]/80 to-[#7E69AB]/20 shadow-xl border border-[#232245]/60 
+      transition-all duration-300 hover:shadow-2xl animate-fade-in backdrop-blur-md hover:scale-[1.03]">
       <div className="mx-auto max-w-4xl text-center">
-        <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-          🚀 Your API Launchpad
-        </h1>
-        <p className="mx-auto mb-8 max-w-xl text-lg text-gray-300">
-          From prompt to production, in one click. Your API backend project is just a step away.
+        <h2 className="mb-3 flex justify-center items-center gap-2 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
+          <Rocket className="h-7 w-7 text-purple-300 drop-shadow" />
+          Your API Launchpad
+        </h2>
+        <p className="mx-auto mb-8 max-w-xl text-base md:text-lg text-gray-300">
+          From prompt to production, in one click.<br />
+          <span className="text-[#9b87f5] font-semibold">Your API backend project is just a step away.</span>
         </p>
         <button 
           onClick={handleBuildClick}

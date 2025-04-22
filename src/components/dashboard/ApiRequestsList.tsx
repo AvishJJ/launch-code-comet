@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/use-auth';
@@ -91,7 +92,7 @@ export default function ApiRequestsList() {
         {requests.map((request) => (
           <div 
             key={request.id} 
-            className="rounded-xl border border-white/10 bg-gradient-to-tr from-[#232245]/80 to-[#7E69AB]/10 p-5 shadow-md hover:border-purple-500/40 transition-all duration-300 flex items-center justify-between"
+            className="rounded-xl border border-white/10 bg-gradient-to-tr from-[#232245]/80 to-[#7E69AB]/10 p-5 shadow-md hover:border-purple-500/40 transition-all duration-300 flex items-center justify-between hover:scale-[1.02]"
           >
             <div>
               <p className="text-xs text-gray-400">
@@ -118,12 +119,12 @@ export default function ApiRequestsList() {
                   Failed
                 </div>
               )}
-              
+
               {request.zip_url && (
                 <a 
                   href={request.zip_url}
                   download
-                  className="ml-2 flex items-center rounded-full bg-blue-500/20 px-3 py-1 text-xs text-blue-200 font-semibold hover:bg-blue-500/40 transition-all"
+                  className="ml-2 flex items-center rounded-full bg-blue-500/20 px-3 py-1 text-xs text-blue-200 font-semibold hover:bg-blue-500/40 transition-all animate-pulse"
                 >
                   <Download className="mr-1 h-3 w-3" />
                   Download
