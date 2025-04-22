@@ -24,28 +24,46 @@ export default function AuthCard() {
 
     try {
       if (isSignUp) {
+        if (!password || password.length < 6) {
+          toast({
+            title: "Password too short",
+            description: "Password must be at least 6 characters",
+            variant: "destructive"
+          });
+          setIsLoading(false);
+          return;
+        }
+        
         if (password !== confirmPassword) {
           toast({
             title: "Passwords don't match",
+            description: "Please make sure your passwords match",
             variant: "destructive"
           });
+          setIsLoading(false);
           return;
         }
+        
         const { error } = await signUp(email, password, fullName || '');
+        
         if (error) throw error;
+        
         toast({
           title: "Account created",
-          description: "Welcome to Comet"
+          description: "Welcome to Comet. Please check your email to confirm your account."
         });
+        
+        // Don't automatically navigate on signup as the user may need to verify email first
       } else {
         const { error } = await signIn(email, password);
         if (error) throw error;
         navigate('/dashboard');
       }
     } catch (error: any) {
+      console.error("Authentication error:", error);
       toast({
         title: "Authentication error",
-        description: error.message,
+        description: error.message || "There was a problem with authentication",
         variant: "destructive"
       });
     } finally {

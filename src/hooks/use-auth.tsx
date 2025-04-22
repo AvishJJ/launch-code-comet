@@ -1,3 +1,4 @@
+
 import { useEffect, useState, createContext, useContext, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
@@ -22,6 +23,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         console.log("Auth state changed:", event, session?.user?.email);
@@ -38,6 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     );
 
+    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       console.log("Initial session check:", session?.user?.email);
       setSession(session);
@@ -49,29 +52,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [navigate]);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (!error) navigate('/dashboard');
-    return { error };
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      return { error };
+    } catch (error) {
+      console.error("Sign in error:", error);
+      return { error: error as Error };
+    }
   };
 
   const signUp = async (email: string, password: string, fullName: string) => {
-    const { error } = await supabase.auth.signUp({ 
-      email, 
-      password,
-      options: {
-        data: {
-          full_name: fullName
+    try {
+      const { error } = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          data: {
+            full_name: fullName
+          }
         }
-      }
-    });
-    if (!error) navigate('/dashboard');
-    return { error };
+      });
+      
+      return { error };
+    } catch (error) {
+      console.error("Sign up error:", error);
+      return { error: error as Error };
+    }
   };
 
   const signOut = async () => {
-    console.log("Signing out user");
-    await supabase.auth.signOut();
-    navigate('/auth');
+    try {
+      console.log("Signing out user");
+      await supabase.auth.signOut();
+      navigate('/auth');
+    } catch (error) {
+      console.error("Sign out error:", error);
+    }
   };
 
   const signInWithProvider = async (provider: 'github' | 'google') => {
