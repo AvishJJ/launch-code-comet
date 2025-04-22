@@ -12,7 +12,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/auth');
+      navigate('/auth', { replace: true });
     }
   }, [user, loading, navigate]);
 
@@ -25,11 +25,15 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A23]">
+    <div className="min-h-screen bg-gradient-to-tl from-[#1A1F2C] via-[#0A0A23] to-[#221F26] animate-fade-in">
       <Header />
-      <main className="container mx-auto px-4 py-8">
-        <DashboardCTA />
-        <ApiRequestsList />
+      <main className="container mx-auto px-4 py-12 max-w-5xl">
+        <section className="mb-12 animate-fade-in">
+          <DashboardCTA />
+        </section>
+        <section className="animate-fade-in">
+          <ApiRequestsList />
+        </section>
       </main>
     </div>
   );

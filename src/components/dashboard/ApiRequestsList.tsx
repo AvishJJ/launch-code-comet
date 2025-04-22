@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/use-auth';
@@ -67,69 +66,69 @@ export default function ApiRequestsList() {
 
   if (loading) {
     return (
-      <div className="py-8 text-center text-gray-400">
-        <Clock className="mx-auto mb-2 h-8 w-8 animate-pulse" />
-        <p>Loading your API requests...</p>
+      <div className="py-8 text-center text-gray-400 animate-fade-in">
+        <span className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#7E69AB] to-[#1EAEDB]">
+          <Clock className="h-8 w-8 animate-pulse text-white" />
+        </span>
+        <p className="mt-2 text-lg font-medium text-white/70">Loading your API requests...</p>
       </div>
     );
   }
 
   if (requests.length === 0) {
     return (
-      <div className="rounded-lg border border-white/10 bg-[#1E1E3F]/30 p-6 text-center">
-        <p className="text-gray-400">You haven't created any API requests yet.</p>
-        <p className="mt-2 text-sm text-gray-500">Click "Build Me an API" to get started.</p>
+      <div className="rounded-lg border border-white/10 bg-gradient-to-br from-[#1E1E3F]/70 to-[#7E69AB]/10 p-8 text-center shadow-lg animate-fade-in">
+        <p className="text-gray-300 text-lg">You haven't created any API requests yet.</p>
+        <p className="mt-2 text-sm text-gray-400">Click <span className="font-semibold text-purple-300">"Build Me an API"</span> to get started.</p>
       </div>
     );
   }
 
   return (
-    <div className="mt-8">
-      <h2 className="mb-4 text-xl font-semibold text-white">Your API Requests</h2>
-      <div className="space-y-4">
+    <div className="mt-8 animate-fade-in">
+      <h2 className="mb-4 text-2xl font-bold text-white tracking-tight">Your API Requests</h2>
+      <div className="space-y-5">
         {requests.map((request) => (
           <div 
             key={request.id} 
-            className="rounded-lg border border-white/10 bg-[#1E1E3F]/30 p-4 transition-all hover:border-purple-500/30"
+            className="rounded-xl border border-white/10 bg-gradient-to-tr from-[#232245]/80 to-[#7E69AB]/10 p-5 shadow-md hover:border-purple-500/40 transition-all duration-300 flex items-center justify-between"
           >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-400">
-                  {new Date(request.created_at).toLocaleString()}
-                </p>
-                <p className="mt-1 text-white">{request.prompt}</p>
-              </div>
-              <div className="flex items-center">
-                {request.status === 'pending' && (
-                  <div className="flex items-center rounded-full bg-yellow-500/20 px-3 py-1 text-xs text-yellow-300">
-                    <Clock className="mr-1 h-3 w-3" />
-                    Pending
-                  </div>
-                )}
-                {request.status === 'completed' && (
-                  <div className="flex items-center rounded-full bg-green-500/20 px-3 py-1 text-xs text-green-300">
-                    <CheckCircle className="mr-1 h-3 w-3" />
-                    Completed
-                  </div>
-                )}
-                {request.status === 'failed' && (
-                  <div className="flex items-center rounded-full bg-red-500/20 px-3 py-1 text-xs text-red-300">
-                    <AlertCircle className="mr-1 h-3 w-3" />
-                    Failed
-                  </div>
-                )}
-                
-                {request.zip_url && (
-                  <a 
-                    href={request.zip_url}
-                    download
-                    className="ml-3 flex items-center rounded-full bg-blue-500/20 px-3 py-1 text-xs text-blue-300 hover:bg-blue-500/30"
-                  >
-                    <Download className="mr-1 h-3 w-3" />
-                    Download
-                  </a>
-                )}
-              </div>
+            <div>
+              <p className="text-xs text-gray-400">
+                {new Date(request.created_at).toLocaleString()}
+              </p>
+              <p className="mt-1 text-lg text-white font-medium">{request.prompt}</p>
+            </div>
+            <div className="flex items-center">
+              {request.status === 'pending' && (
+                <div className="flex items-center rounded-full bg-yellow-500/30 px-3 py-1 text-xs text-yellow-300 font-semibold mr-2">
+                  <Clock className="mr-1 h-3 w-3" />
+                  Pending
+                </div>
+              )}
+              {request.status === 'completed' && (
+                <div className="flex items-center rounded-full bg-green-500/25 px-3 py-1 text-xs text-green-200 font-semibold mr-2">
+                  <CheckCircle className="mr-1 h-3 w-3" />
+                  Completed
+                </div>
+              )}
+              {request.status === 'failed' && (
+                <div className="flex items-center rounded-full bg-red-500/30 px-3 py-1 text-xs text-red-200 font-semibold mr-2">
+                  <AlertCircle className="mr-1 h-3 w-3" />
+                  Failed
+                </div>
+              )}
+              
+              {request.zip_url && (
+                <a 
+                  href={request.zip_url}
+                  download
+                  className="ml-2 flex items-center rounded-full bg-blue-500/20 px-3 py-1 text-xs text-blue-200 font-semibold hover:bg-blue-500/40 transition-all"
+                >
+                  <Download className="mr-1 h-3 w-3" />
+                  Download
+                </a>
+              )}
             </div>
           </div>
         ))}

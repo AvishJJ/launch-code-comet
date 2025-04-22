@@ -27,9 +27,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.log("Auth state changed:", event, session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
-        
-        if (event === 'SIGNED_IN' && window.location.href.includes('#access_token')) {
-          navigate('/dashboard');
+
+        if (event === 'SIGNED_IN') {
+          if (window.location.pathname !== '/dashboard') {
+            setTimeout(() => {
+              navigate('/dashboard', { replace: true });
+            }, 100);
+          }
         }
       }
     );

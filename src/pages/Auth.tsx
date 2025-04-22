@@ -11,12 +11,13 @@ export default function Auth() {
 
   useEffect(() => {
     if (user && !loading) {
-      navigate('/dashboard');
+      // Add fade animation for smoothness
+      navigate('/dashboard', { replace: true });
     }
   }, [user, loading, navigate]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#0A0A23]">
+    <div className="flex min-h-screen flex-col bg-[#0A0A23] animate-fade-in">
       <main className="flex flex-1 items-center justify-center py-16">
         <AuthCard />
       </main>
