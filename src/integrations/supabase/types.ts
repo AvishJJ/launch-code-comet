@@ -57,12 +57,33 @@ export type Database = {
         }
         Relationships: []
       }
+      user_credits: {
+        Row: {
+          credits: number
+          last_refill: string
+          user_id: string
+        }
+        Insert: {
+          credits?: number
+          last_refill?: string
+          user_id: string
+        }
+        Update: {
+          credits?: number
+          last_refill?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      refill_user_credits: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
