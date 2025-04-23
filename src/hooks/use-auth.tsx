@@ -22,7 +22,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // Helper function to safely redirect to dashboard
+  const redirectToDashboard = () => {
+    console.log("Redirecting to dashboard");
+    if (window.location.pathname !== '/dashboard') {
+      setTimeout(() => {
+        navigate('/dashboard', { replace: true });
+      }, 100);
+    }
+  };
+
   useEffect(() => {
+    // Check URL for hash fragment from OAuth redirects
+    const handleOAuthRedirect = async () => {
+      const hasOAuthCode = window.location.hash && 
+                           (window.location.hash.includes('access_token') || 
+                            window.location.hash.includes('error'));
+      
+      if (hasOAuthCode) {
+        console.log("Detected OAuth redirect");
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (data?.session && !error) {
+          console.log("Valid session found after OAuth redirect");
+          setSession(data.session);
+          setUser(data.session.user);
+          redirectToDashboard();
+        }
+      }
+    };
+    
+    handleOAuthRedirect();
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
@@ -31,11 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(session?.user ?? null);
 
         if (event === 'SIGNED_IN') {
-          if (window.location.pathname !== '/dashboard') {
-            setTimeout(() => {
-              navigate('/dashboard', { replace: true });
-            }, 100);
-          }
+          redirectToDashboard();
         }
       }
     );
@@ -45,6 +72,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.log("Initial session check:", session?.user?.email);
       setSession(session);
       setUser(session?.user ?? null);
+      
+      if (session?.user && window.location.pathname !== '/dashboard') {
+        redirectToDashboard();
+      }
+      
       setLoading(false);
     });
 

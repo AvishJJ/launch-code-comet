@@ -12,8 +12,14 @@ export default function Auth() {
   const pageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Smooth fade-out before navigation to dashboard
-    if (user && !loading) {
+    // Check if this is a return from an OAuth flow
+    const isOAuthRedirect = window.location.hash && 
+                           (window.location.hash.includes('access_token') || 
+                            window.location.hash.includes('error'));
+                            
+    // Only handle page transitions when not in an OAuth redirect
+    // as the auth provider will handle that separately
+    if (!isOAuthRedirect && user && !loading) {
       if (pageRef.current) {
         pageRef.current.classList.add('animate-fade-out');
         setTimeout(() => {
