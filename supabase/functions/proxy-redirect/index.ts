@@ -16,7 +16,7 @@ serve(async (req) => {
     
     const TALLY_FORM_URL = 'https://tally.so/r/mB9VN5'
     
-    // Return an HTML response with multiple redirect mechanisms
+    // Return an HTML response with improved redirect handling
     const html = `
       <!DOCTYPE html>
       <html>
@@ -24,17 +24,18 @@ serve(async (req) => {
           <meta http-equiv="refresh" content="0;url=${TALLY_FORM_URL}">
           <title>Redirecting to Tally Form</title>
           <script>
-            // Immediate redirect
-            window.location.replace("${TALLY_FORM_URL}");
+            // Force immediate redirect
+            window.location.href = "${TALLY_FORM_URL}";
             
-            // Fallback redirect after a short delay
+            // In case the first redirect fails
             setTimeout(function() {
-              window.location.href = "${TALLY_FORM_URL}";
-            }, 500);
+              window.location.replace("${TALLY_FORM_URL}");
+            }, 100);
           </script>
         </head>
-        <body>
-          <p>Redirecting to form... If you are not redirected automatically, <a href="${TALLY_FORM_URL}">click here</a>.</p>
+        <body style="font-family: Arial, sans-serif; text-align: center; padding: 40px; color: #666;">
+          <h2>Redirecting you to the form...</h2>
+          <p>If you are not redirected automatically, <a href="${TALLY_FORM_URL}" style="color: #4f46e5; font-weight: bold;">click here</a>.</p>
         </body>
       </html>
     `;

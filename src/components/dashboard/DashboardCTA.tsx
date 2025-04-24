@@ -61,22 +61,19 @@ export default function DashboardCTA() {
         const domain = window.location.hostname === 'localhost' 
           ? 'https://joiunavbqgulbqzpdmkf.supabase.co'
           : `https://${window.location.hostname}`;
-
+          
+        const redirectUrl = `${domain}/functions/v1/proxy-redirect`;
+        
         toast({
-          title: "Redirecting",
-          description: "Redirecting you to the form..."
+          title: "Success!",
+          description: "Redirecting to form in 1 second..."
         });
         
-        // Use both methods to ensure redirect works
-        // 1. Open in new tab
-        window.open(`${domain}/functions/v1/proxy-redirect`, '_blank');
-        
-        // 2. Also try to redirect in the same window after a short delay
+        // Direct navigation after a short delay (allows toast to be seen)
         setTimeout(() => {
-          window.location.href = `${domain}/functions/v1/proxy-redirect`;
-          // Reset state after a delay to allow for navigation
-          setTimeout(() => setIsRedirecting(false), 2000);
-        }, 500);
+          // Use location.replace to prevent going back to dashboard
+          window.location.replace(redirectUrl);
+        }, 1000);
       }
     } catch (error) {
       console.error('Error:', error);
