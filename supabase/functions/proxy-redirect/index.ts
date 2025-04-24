@@ -7,7 +7,6 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
   }
@@ -15,15 +14,26 @@ serve(async (req) => {
   try {
     console.log("Received redirect request")
     
-    // The actual URL we want to redirect to
     const TALLY_FORM_URL = 'https://tally.so/r/mB9VN5'
     
-    // Return a redirect response
-    return new Response(null, {
-      status: 302,
+    // Return an HTML response that performs the redirect
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta http-equiv="refresh" content="0;url=${TALLY_FORM_URL}">
+        </head>
+        <body>
+          <p>Redirecting to form...</p>
+          <script>window.location.replace("${TALLY_FORM_URL}");</script>
+        </body>
+      </html>
+    `;
+
+    return new Response(html, {
       headers: {
         ...corsHeaders,
-        'Location': TALLY_FORM_URL
+        'Content-Type': 'text/html'
       }
     })
   } catch (error) {

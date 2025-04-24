@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import { useCredits } from '@/hooks/use-credits';
@@ -18,7 +17,7 @@ import {
 
 export default function DashboardCTA() {
   const { user } = useAuth();
-  const { credits, loading: creditsLoading } = useCredits();
+  const { credits, loading: creditsLoading, useCredit } = useCredits();
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
@@ -39,26 +38,26 @@ export default function DashboardCTA() {
     try {
       if (user) {
         // First try to use a credit
-        const { error } = await supabase.from('user_credits')
-          .update({ credits: credits! - 1 })
-          .eq('user_id', user.id);
+        const creditUsed = await useCredit();
+        if (!creditUsed) {
+          setIsRedirecting(false);
+          return;
+        }
 
-        if (error) throw error;
-
-        // Then record the API request
+        // Record the API request
         await supabase.from('api_requests').insert({
           user_id: user.id,
           prompt: 'User initiated API build from dashboard',
           status: 'pending'
         });
 
-        // Call our proxy redirect function instead of directly redirecting
-        const { data, error: funcError } = await supabase.functions.invoke('proxy-redirect');
-        
-        if (funcError) throw funcError;
-        
-        // Redirect to the URL returned by our function
-        window.location.href = 'https://joiunavbqgulbqzpdmkf.supabase.co/functions/v1/proxy-redirect';
+        // Get the current domain for the edge function
+        const domain = window.location.hostname === 'localhost' 
+          ? 'https://joiunavbqgulbqzpdmkf.supabase.co'
+          : window.location.origin;
+
+        // Call edge function with dynamic URL
+        window.location.replace(`${domain}/functions/v1/proxy-redirect`);
       }
     } catch (error) {
       console.error('Error:', error);
