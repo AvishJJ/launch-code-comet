@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import { useCredits } from '@/hooks/use-credits';
@@ -41,6 +42,11 @@ export default function DashboardCTA() {
         const creditUsed = await useCredit();
         if (!creditUsed) {
           setIsRedirecting(false);
+          toast({
+            title: "Error",
+            description: "Could not use credit. Please try again.",
+            variant: "destructive"
+          });
           return;
         }
 
@@ -51,19 +57,32 @@ export default function DashboardCTA() {
           status: 'pending'
         });
 
-        // Get the current domain for the edge function
+        // Get the current domain for the edge function - works for both development and production
         const domain = window.location.hostname === 'localhost' 
           ? 'https://joiunavbqgulbqzpdmkf.supabase.co'
-          : window.location.origin;
+          : `https://${window.location.hostname}`;
 
-        // Call edge function with dynamic URL
-        window.location.replace(`${domain}/functions/v1/proxy-redirect`);
+        toast({
+          title: "Redirecting",
+          description: "Redirecting you to the form..."
+        });
+        
+        // Use both methods to ensure redirect works
+        // 1. Open in new tab
+        window.open(`${domain}/functions/v1/proxy-redirect`, '_blank');
+        
+        // 2. Also try to redirect in the same window after a short delay
+        setTimeout(() => {
+          window.location.href = `${domain}/functions/v1/proxy-redirect`;
+          // Reset state after a delay to allow for navigation
+          setTimeout(() => setIsRedirecting(false), 2000);
+        }, 500);
       }
     } catch (error) {
       console.error('Error:', error);
       toast({
         title: "Error",
-        description: "Could not process your request",
+        description: "Could not process your request. Please try again.",
         variant: "destructive"
       });
       setIsRedirecting(false);
