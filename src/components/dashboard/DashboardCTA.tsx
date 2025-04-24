@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import { useCredits } from '@/hooks/use-credits';
@@ -50,9 +51,17 @@ export default function DashboardCTA() {
           prompt: 'User initiated API build from dashboard',
           status: 'pending'
         });
+
+        // Call our proxy redirect function instead of directly redirecting
+        const { data, error: funcError } = await supabase.functions.invoke('proxy-redirect');
+        
+        if (funcError) throw funcError;
+        
+        // Redirect to the URL returned by our function
+        window.location.href = 'https://joiunavbqgulbqzpdmkf.supabase.co/functions/v1/proxy-redirect';
       }
-      window.location.href = 'https://tally.so/r/mB9VN5';
     } catch (error) {
+      console.error('Error:', error);
       toast({
         title: "Error",
         description: "Could not process your request",
